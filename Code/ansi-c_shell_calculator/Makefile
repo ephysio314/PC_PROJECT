@@ -5,13 +5,14 @@ CC= gcc $(CC_FLAG)
 
 BUILD_DIR= build
 
-TESTS= 
+P1= $(BUILD_DIR)/src/
+SRC_OBJ= $(P1)int_operation.o $(P1)float_operation.o $(P1)int_conversion.o
 
-P1= $(BUILD_DIR)/examples/
-EXAMPLES= $(P1)hello.exe $(P1)operation.exe $(P1)int_convert.exe
+P2= $(BUILD_DIR)/tests/
+TESTS= $(P2)hello.exe $(P2)operation.exe $(P2)int_convert.exe $(P2)file.exe
 
-P2= $(BUILD_DIR)/src/
-SRC_OBJ= $(P2)module_backend.o $(P2)int_operation.o $(P2)float_operation.o $(P2)int_conversion.o
+P3=
+EXAMPLE= 
 
 exe: $(EXAMPLES) $(TESTS)
 
