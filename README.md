@@ -1,2 +1,2 @@
 # PC_PROJECT
-Project directory bacup from the PC.
+Project directory backup from the PC.
