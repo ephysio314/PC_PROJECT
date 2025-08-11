@@ -1,11 +1,8 @@
 
 A) Variation from the last example
 
-Add dependancies to the examples.
-
-Use two methodes:
-- object-binary.
-- static-library.
+Add dependancies to the examples
+using static lib
 
 Note:
 	We will test dynamique library latter
