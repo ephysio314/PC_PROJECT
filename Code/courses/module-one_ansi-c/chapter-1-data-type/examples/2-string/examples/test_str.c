@@ -31,13 +31,19 @@ int main(void){
 	char strx[11] = {0};
 	char stry[11] = {0};
 	
-	cl_Print("Entre the x integer\n");
+	cl_PrintStr("Entre the x integer\n");
 	str_Cpy(cl_Input(), strx);
-	cl_Print("Entre the y integer\n");
+	cl_PrintStr("Entre the y integer\n");
 	str_Cpy(cl_Input(), stry);
 	
 	cmd.x = _atoi(strx);
 	cmd.y = _atoi(stry);
+	
+	cl_PrintStr("We enter the number '");
+	cl_PrintInt(cmd.x);
+	cl_PrintStr("' and '");
+	cl_PrintInt(cmd.y);
+	cl_PrintStr("'\n");
 	
 	cmd.mode = '+';
 	int_PrintOperation(cmd);
