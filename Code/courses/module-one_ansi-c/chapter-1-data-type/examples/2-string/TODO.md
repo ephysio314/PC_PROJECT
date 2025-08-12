@@ -1,4 +1,13 @@
 
+~NEXT
+
+Seprate the "str" module in:
+- str_buff
+- str_io
+- str
+
+~GENERAL
+
 - String file-handling.
 
 - Other string features, like
