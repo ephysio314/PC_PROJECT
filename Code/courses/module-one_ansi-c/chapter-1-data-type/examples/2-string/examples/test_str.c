@@ -27,10 +27,10 @@ int main(void){
 	char strx[11] = {0};
 	char stry[11] = {0};
 	
-	str_Print("Entre the x integer\n");
-	str_Cpy(str_Input(), strx);
-	str_Print("Entre the y integer\n");
-	str_Cpy(str_Input(), stry);
+	cl_Print("Entre the x integer\n");
+	str_Cpy(cl_Input(), strx);
+	cl_Print("Entre the y integer\n");
+	str_Cpy(cl_Input(), stry);
 	
 	cmd.x = _atoi(strx);
 	cmd.y = _atoi(stry);

@@ -1,4 +1,6 @@
 
+#include "str.h" /* str_buff.c */
+
 #include <stdio.h> /* stdout, fputc */
 #include <limits.h> /* INT_MAX */
 
@@ -32,7 +34,7 @@ void str_Cpy( const char * _val, char * _targ){
 ~VIEW
 */
 
-void str_Print(const char * _val){
+void cl_Print(const char * _val){
 	int i=0;
 	int imax=str_Len(_val);
 	while(i < imax){
@@ -41,42 +43,15 @@ void str_Print(const char * _val){
 	}
 }
 
-/*
-~CONTROL
-*/
-
-/*
-Buffering control
-https://www.gnu.org/software/libc/manual/html_node/Controlling-Buffering.html
-*/
-
-static char buf[BUFSIZ] = (char[BUFSIZ]){0};
-
-int str_GetBuffSize(void){
-	return BUFSIZ;
-}
-
-void str_SetBuffStream(FILE*_stream){
-
-}
-
-void str_ResetBuf(void){
-	memset(buf, '\0', sizeof(char) * BUFSIZ);
-}
-
-const char * str_Input(void){
+const char * cl_Input(void){
 	str_ResetBuf();
 	int i=0;
-	int imax=BUFSIZ;
+	int imax=str_GetBuffSize();
 	while(1){
 		char c = fgetc(stdin);
 		if(EOF == c || '\n' == c){ break; }
-		else if(i < imax){ buf[i] = c; i++; }
+		else if(i < imax){ str_PushBuf(c); i++; }
 	}
-	return buf;
-}
-
-const char * str_GetInputBuf(void){
-	return buf;
+	return str_GetBuf();
 }
 

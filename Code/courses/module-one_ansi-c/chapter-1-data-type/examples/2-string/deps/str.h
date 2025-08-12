@@ -1,22 +1,20 @@
 
-#include <stdio.h> /* FILE* */
-
 int str_Len(const char * _val);
 void str_Cpy( const char * _val, char * _targ);
 
 /*
-~VIEW
-*/
-
-void str_Print(const char * _val);
-
-/*
-~CONTROL
+~BUFF
 */
 
 int str_GetBuffSize(void);
-void str_SetBuffStream(FILE*_stream);
 void str_ResetBuf(void);
-const char * str_Input(void);
-const char * str_GetInputBuf(void);
+const char * str_GetBuf(void);
+void str_PushBuf(const char _val);
+
+/*
+~INPUT/OUPUT
+*/
+
+void cl_Print(const char * _val);
+const char * cl_Input(void);
 

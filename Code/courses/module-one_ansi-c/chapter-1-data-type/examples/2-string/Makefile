@@ -7,7 +7,7 @@ CC= gcc $(CC_FLAGS)
 
 P1= build/deps/
 DEPS= $(P1)libint.a $(P1)libstr.a
-DEPS_OBJ= $(P1)int_conversion.o $(P1)int_operation.o $(P1)str.o
+DEPS_OBJ= $(P1)int_conversion.o $(P1)int_operation.o $(P1)str.o $(P1)str_buff.o
 
 LINK= -L$(P1) -lint -lstr
 
