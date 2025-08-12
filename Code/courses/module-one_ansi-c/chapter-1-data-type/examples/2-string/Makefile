@@ -6,10 +6,13 @@ CC_FLAGS= $(CC_VERSION)
 CC= gcc $(CC_FLAGS)
 
 P1= build/deps/
-DEPS= $(P1)libint.a $(P1)libstr.a
-DEPS_OBJ= $(P1)int_conversion.o $(P1)int_operation.o $(P1)str.o $(P1)str_buff.o $(P1)cl_io.o
+DEPS= $(P1)libint.a $(P1)libstr.a $(P1)libcl.a
+DEPS_INT_OBJ= $(P1)int_conversion.o $(P1)int_operation.o
+DEPS_STR_OBJ= $(P1)str.o $(P1)str_buff.o
+DEPS_CL_OBJ=  $(P1)cl_io.o
+DEPS_OBJ= $(DEPS_INT_OBJ) $(DEPS_STR_OBJ) $(DEPS_CL_OBJ)
 
-LINK= -L$(P1) -lint -lstr
+LINK= -L$(P1) -lint -lstr -lcl
 
 LIB_CC= ar rcs
 
@@ -35,6 +38,9 @@ setup: README.md examples/DESCR.md deps/DESCR.md
 	cd build; mkdir deps; cd ..
 	cd deps ; cp DESCR.md ../build/deps ; cd ..
 
+build/deps/libcl.a: $(DEPS_OBJ)
+	$(LIB_CC) $@ $^
+	
 build/deps/libstr.a: $(DEPS_OBJ)
 	$(LIB_CC) $@ $^
 	
@@ -42,5 +48,5 @@ build/deps/libint.a: $(DEPS_OBJ)
 	$(LIB_CC) $@ $^
 
 $(P1)%.o: deps/%.c
-	$(CC) -c $< -o $@
+	$(CC) -c $< -o $@ -Ideps
 
