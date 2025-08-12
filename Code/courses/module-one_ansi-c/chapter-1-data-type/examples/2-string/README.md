@@ -1,6 +1,6 @@
 
 A) Descr
 
-Handle string types.
+Base of handle string types.
 
 

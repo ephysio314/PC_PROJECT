@@ -1,5 +1,5 @@
 
-BIN_EXE= build/examples/hello.exe build/examples/test_int.exe build/examples/test_str.exe build/examples/io.exe
+BIN_EXE= build/examples/hello.exe build/examples/test_int.exe build/examples/test_str.exe build/examples/io.exe build/examples/files.exe
 
 CC_VERSION= -std=c89
 CC_FLAGS= $(CC_VERSION)
