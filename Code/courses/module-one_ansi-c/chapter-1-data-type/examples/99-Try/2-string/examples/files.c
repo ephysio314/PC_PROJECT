@@ -22,7 +22,6 @@ char * buff=NULL;
 
 void file_Write(const char * _val){
 	FILE*file=fopen(filename, "wb");
-	if(NULL == file){ printf("ERROR:FILE_FAIL_OPEN: '%s'\n", filename);exit(1); }
 	fwrite(_val, sizeof(char), (int)strlen(_val)+1, file);
 	fclose(file);
 }
@@ -30,7 +29,6 @@ void file_Write(const char * _val){
 int file_Len(void){
 	int return_val=0;
 	FILE*file=fopen(filename, "rb");
-	if(NULL == file){ printf("ERROR:FILE_FAIL_OPEN: '%s'\n", filename);exit(1); }
 	while(1){
 		char c;
 	  fread(&c, sizeof(char), 1, file);
@@ -47,7 +45,6 @@ void file_LoadBuff(void){
 	buff = (char*)calloc(sizeof(char), len + 1);
 	
 	FILE*file=fopen(filename, "rb");
-	if(NULL == file){ printf("ERROR:FILE_FAIL_OPEN: '%s'\n", filename);exit(1); }
 	int i=0;
 	int imax=len;
 	while(1){
