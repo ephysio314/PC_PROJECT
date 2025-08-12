@@ -8,17 +8,21 @@ int_PrintOperation,
 _atoi,
 _itoa
 */
+
 #include <str.h>
 /*  
 str_Len,
 str_Cpy,
-str_Print,
 
 str_GetBuffSize,
 str_SetBuffStream,
 str_ResetBuf,
+*/
 
-str_Input
+#include <cl.h>
+/*
+void cl_Print(const char * _val);
+const char * cl_Input(void);
 */
 
 int main(void){
