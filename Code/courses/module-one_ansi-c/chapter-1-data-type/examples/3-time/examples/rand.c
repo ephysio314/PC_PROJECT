@@ -57,8 +57,10 @@ float time_Float(void);
 ~DEBUG
 */
 
-void buff_Reset(void);
+bool buff_one_and_two_IsFill(void);
+bool buff_three_IsFill(void);
 int buff_GetId(void);
+void buff_Reset(void);
 bool buff_Push(const char _val);
 bool buff_three_Upd(void);
 int buff_count_GetSimilar(void);
@@ -92,6 +94,13 @@ int buff_GetId(void){
 	return buff_id_select;
 }
 
+bool buff_one_and_two_IsFill(void){
+  return (bool)(BUFF_MAX == buff_one_fill && BUFF_MAX == buff_two_fill);
+}
+bool buff_three_IsFill(void){
+  return (bool)(BUFF_MAX == buff_three_fill);
+}
+
 bool buff_Push(const char _val){
 	switch(buff_id_select){
 		case 0:
@@ -122,13 +131,16 @@ bool buff_Push(const char _val){
 }
 
 bool buff_three_Upd(void){
-	if(BUFF_MAX != buff_one_fill-1 || BUFF_MAX != buff_two_fill-1){
-		return 1;
+	if(!buff_one_and_two_IsFill()){
+		printf("Warning: Buff one and two is not fill!\n");return 1;
 	}
 
-	while(buff_three_fill < BUFF_MAX){
-		buff_three[buff_three_fill] = (bool)(buff_one[buff_three_fill] == buff_two[buff_three_fill]);
+	int i=0;
+	int imax=BUFF_MAX;
+	while(i < imax){
+		buff_three[i] = (bool)(buff_one[i] == buff_two[i]);
 		buff_three_fill++;
+		i++;
 	}
 
 	return 0;
@@ -151,12 +163,11 @@ int buff_count_GetSimilar(void){
 }
 
 bool buff_three_Print(void){
-	if(BUFF_MAX != buff_three_fill-1){
+	buff_three_Upd();
+	if(!buff_three_IsFill()){
 		return 1;
 	}
 
-	buff_three_Upd();
-	
 	int i=0;
 	int imax=BUFF_MAX;
 	while(i < imax){
@@ -165,7 +176,7 @@ bool buff_three_Print(void){
 	}
 	
 	int similar_count = buff_count_GetSimilar();
-	if(-1 == buff_three_Print()){ printf("Warning: fail to call buff_count_GetSimilar!\n"); }
+	if(-1 == buff_three_Print()){ printf("Warning: fail to call buff_count_GetSimilar!\n"); return 1; }
 	printf("Similar: '%d'\n", similar_count);
 
 	return 0;
@@ -184,6 +195,7 @@ void out_rand_one(void){
 	i=0;
 	printf("buff id '%d'\n", buff_GetId());
 	while(0 == buff_GetId()){
+		if(BUFF_MAX <= i){ printf("Loop using id break because i edge reach\n");break; }
 		int r=rand();
 		buff_Push(r);
 		printf("i '%d', r '%d'\n", i, r);
@@ -193,12 +205,14 @@ void out_rand_one(void){
 	i=0;
 	printf("buff id '%d'\n", buff_GetId());
 	while(1 == buff_GetId()){
+		if(BUFF_MAX <= i){ printf("Loop using id break because i edge reach\n");break; }
 		int r=rand();
 		buff_Push(r);
 		printf("i '%d', r '%d'\n", i, r);
 		i++;
 	}
 	
+	printf("buff id '%d'\n", buff_GetId());
 	if(0 != buff_three_Print()){ printf("Warning: fail to call buff_three_Print!\n"); }
 }
 
