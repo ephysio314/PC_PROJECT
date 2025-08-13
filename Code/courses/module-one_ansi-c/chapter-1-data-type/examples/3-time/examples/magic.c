@@ -15,6 +15,140 @@
 	If enter 'Y', call the game main-loop.
 */
 
+#include <stdbool.h>
+
+#include <random.h>
+
+
+/*
+~GAME
+*/
+
+/*
+~GAME-CORE
+*/
+
+bool game_IsInit(void);
+void game_Init(void);
+void game_GenerateGuess(void);
+
+enum e_game_mode{
+	E_GAME_MODE_NULL,
+
+	E_GAME_MODE_MAINMENU,
+	E_GAME_MODE_PLAY,
+	E_GAME_MODE_PAUSE,
+	E_GAME_MODE_SCORE,
+
+	E_GAME_MODE_EXIT,
+
+	E_GAME_MODE_MAX
+};
+
+#define LABEL_LEN 50
+
+const char LABEL_GAME_MODE[E_GAME_MODE_MAX][LABEL_LEN] = {
+	"E_GAME_MODE_NULL",
+	
+	"E_GAME_MODE_MAINMENU",
+	"E_GAME_MODE_PLAY",
+	"E_GAME_MODE_PAUSE",
+	"E_GAME_MODE_SCORE",
+	
+	"E_GAME_MODE_EXIT",
+};
+
+static enum e_game_mode user_game_mode=E_GAME_MODE_NULL;
+
+void game_Start(void){
+	game_Init();
+	user_game_mode=E_GAME_MODE_MAINMENU;
+	
+	game_GenerateGuess();
+}
+
+void game_End(void){
+
+}
+
+void game_View(void){
+
+}
+
+bool game_IsValideNewMode(enum e_game_mode _new_mode_ask){
+
+	switch(user_game_mode){
+		case E_GAME_MODE_NULL:
+			/* Not request */
+			break;
+	
+		case E_GAME_MODE_MAINMENU:
+			if(E_GAME_MODE_PLAY == _new_mode_ask || E_GAME_MODE_EXIT == _new_mode_ask){
+				new_mode_ask_is_valide=1;
+			}
+			break;
+			
+		case E_GAME_MODE_PLAY:
+			if(E_GAME_MODE_PAUSE == _new_mode_ask || E_GAME_MODE_SCORE == _new_mode_ask){
+				new_mode_ask_is_valide=1;
+			}
+			break;
+			
+		case E_GAME_MODE_PAUSE:
+			if(E_GAME_MODE_PLAY == _new_mode_ask || E_GAME_MODE_MAINMENU == _new_mode_ask){
+				new_mode_ask_is_valide=1;
+			}
+			break;
+			
+		case E_GAME_MODE_SCORE:
+			if(E_GAME_MODE_PLAY == _new_mode_ask || E_GAME_MODE_MAINMENU == _new_mode_ask){
+				new_mode_ask_is_valide=1;
+			}
+			break;
+			
+		default:
+			break;
+	}
+	
+	return false;
+}
+
+void game_Control(void){
+	enum e_game_mode new_mode_ask=E_GAME_MODE_NULL;
+	
+	
+	
+	if(!game_IsValideNewMode(new_mode_ask)){
+		
+	}
+}
+
+/*
+~MODULES
+*/
+
+static bool game_is_init=0;
+
+#define GAME_INT_TOGUESS_MAX 100
+
+static int game_int_toguess=0;
+
+bool game_IsInit(void){
+	return game_is_ini;
+}
+
+void game_Init(void){
+	if(!game_IsInit()){
+		random_SetRandMax(GAME_INT_TOGUESS_MAX);
+
+  	game_is_ini=1;
+  }
+}
+
+void game_GenerateGuess(void){
+	game_int_toguess=random_stack_Pop();
+}
+
 int main(void){
 
 	return 0;
