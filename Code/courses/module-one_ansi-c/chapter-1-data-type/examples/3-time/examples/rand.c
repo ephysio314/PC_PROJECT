@@ -142,6 +142,15 @@ const int buff_rand_Get(void){
 	return buff_rand;
 }
 
+static int buff_seed=0;
+
+void buff_seed_Set(const int _val){
+	buff_seed=_val;
+}
+const int buff_seed_Get(void){
+	return buff_seed;
+}
+
 /*
 ~MODULES
 */
@@ -196,12 +205,22 @@ const int module_random_CallRand(enum e_module_random _module_id){
 ~SRAND
 */
 
+static int seed_iteration=0;
+
 void module_random_one_Srand(void){
-	srand(time(NULL));
+	int seed=time(NULL)+seed_iteration;
+	if(seed_iteration < INT_MAX){ seed_iteration++; }
+	else{ seed_iteration=0; }
+	buff_seed_Set(seed);
+	srand(seed);
 }
 
 void module_random_two_Srand(void){
-	srand(time(NULL));
+	int seed=time(NULL)+seed_iteration;
+	if(seed_iteration < INT_MAX){ seed_iteration++; }
+	else{ seed_iteration=0; }
+	buff_seed_Set(seed);
+	srand(seed);
 }
 
 /*
@@ -257,7 +276,8 @@ void test_zero(void){
 		int i=0;
 		int imax=20;
 		while(i < imax){
-			printf("i '%d' r '%d'\n", i, module_random_CallRand(module_id));
+			int r=module_random_CallRand(module_id);
+			printf("i '%d' r '%d'\n", i, r);
 			i++;
 		}
 		
@@ -308,11 +328,51 @@ void test_one(void){
 		printf("Generating\n");
 	
 		int i=0;
-		int imax=20;
+		int imax=BUFF_MAX;
+		
+		int j=0;
+		int jmax=(int)(BUFF_MAX/8);
+		
+		i=0;
+		j=0;
 		while(i < imax){
-			printf("i '%d' r '%d'\n", i, module_random_CallRand(module_id));
+			
+			if(j < jmax){ j++; }
+			else{ j=0; module_random_CallSrand(module_id); printf("Seed: '%d'\n", buff_seed_Get()); }
+			
+			int r=module_random_CallRand(module_id);
+			buff_one[i]=r;
+			printf("i '%d' r '%d'\n", i, r);
 			i++;
 		} /* i < imax */
+		
+		i=0;
+		j=0;
+		while(i < imax){
+			
+			if(j < jmax){ j++; }
+			else{ j=0; module_random_CallSrand(module_id); printf("Seed: '%d'\n", buff_seed_Get()); }
+			
+			int r=module_random_CallRand(module_id);
+			buff_two[i]=r;
+			printf("i '%d' r '%d'\n", i, r);
+			i++;
+		} /* i < imax */
+		
+		i=0;
+		int equality_count=0;
+		while(i < imax){
+			int one=buff_one[i];
+			int two=buff_two[i];
+			bool b=(bool)(one == two);
+			printf("i '%d'; (one '%d' == two '%d') = b '%d'\n", i, one, two, b);
+			
+			buff_three[i]=b;
+			if( buff_three[i] ){ equality_count++; }
+			i++;
+		} /* i < imax */
+		
+		printf("Equality: '%d'/'%d'\n", equality_count, imax);
 		
 		/* END */
 	
