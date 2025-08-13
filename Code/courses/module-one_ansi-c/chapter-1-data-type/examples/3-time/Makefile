@@ -6,14 +6,15 @@ CC_FLAGS= $(CC_VERSION)
 CC= gcc $(CC_FLAGS)
 
 P1= build/deps/
-DEPS= $(P1)libint.a $(P1)libstr.a $(P1)libcl.a $(P1)libmytime.a
+DEPS= $(P1)libint.a $(P1)libstr.a $(P1)libcl.a $(P1)libmytime.a $(P1)librandom.a
 DEPS_INT_OBJ= $(P1)int_conversion.o $(P1)int_operation.o
 DEPS_STR_OBJ= $(P1)str.o $(P1)str_buff.o
 DEPS_CL_OBJ=  $(P1)cl_io.o
-DEPS_MYTIME_OBJ=  $(P1)mytime.o
-DEPS_OBJ= $(DEPS_INT_OBJ) $(DEPS_STR_OBJ) $(DEPS_CL_OBJ) $(DEPS_MYTIME_OBJ)
+DEPS_MYTIME_OBJ= $(P1)mytime.o
+DEPS_RAMDOM_OBJ= $(P1)random.o
+DEPS_OBJ= $(DEPS_INT_OBJ) $(DEPS_STR_OBJ) $(DEPS_CL_OBJ) $(DEPS_MYTIME_OBJ) $(DEPS_RAMDOM_OBJ)
 
-LINK= -L$(P1) -lint -lstr -lcl -lmytime
+LINK= -L$(P1) -lint -lstr -lcl -lmytime -lrandom
 
 LIB_CC= ar rcs
 
@@ -38,6 +39,9 @@ setup: README.md examples/DESCR.md deps/DESCR.md
 	cd examples ; cp DESCR.md ../build/examples ; cd ..
 	cd build; mkdir deps; cd ..
 	cd deps ; cp DESCR.md ../build/deps ; cd ..
+
+build/deps/librandom.a: $(DEPS_OBJ)
+	$(LIB_CC) $@ $^
 
 build/deps/libmytime.a: $(DEPS_OBJ)
 	$(LIB_CC) $@ $^

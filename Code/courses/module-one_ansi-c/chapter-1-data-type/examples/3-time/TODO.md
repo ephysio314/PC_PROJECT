@@ -1,8 +1,7 @@
 
 ~NEXT
 
-- Implement time handling.
-- Implement random number generator using time as seed.
+- Game using random numbers and the integer input.
 
 ~GENERAL ( string )
 
