@@ -20,6 +20,14 @@ char filename[FILENAME_MAX]="build/examples/file.bin";
 static FILE*file=NULL;
 char * buff=NULL;
 
+void file_End(void){
+	if(NULL != buff){ free(buff);buff=NULL; }
+}
+
+const char * file_GetBuff(void){
+	return buff;
+}
+
 void file_Write(const char * _val){
 	FILE*file=fopen(filename, "wb");
 	if(NULL == file){ printf("ERROR:FILE_FAIL_OPEN: '%s'\n", filename);exit(1); }
@@ -60,14 +68,6 @@ void file_LoadBuff(void){
 	  }
 	}
 	fclose(file);
-}
-
-const char * file_GetBuff(void){
-	return buff;
-}
-
-void file_End(void){
-	if(NULL != buff){ free(buff);buff=NULL; }
 }
 
 int main(void){

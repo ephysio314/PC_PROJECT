@@ -68,22 +68,6 @@ rand_r (unsigned int *seed)
 #include <string.h> /* memset */
 #include <time.h>
 
-#include <mytime.h>
-/*
-char time_IsInit(void);
-void time_Start(void);
-void time_Upd(void);
-long time_Sec(void);
-long time_Microsec(void);
-float time_Float(void);
-*/
-
-#include <random.h> /* """ to be test as one module """ */
-/*
-void random_stack_Pop(void)
-*/
-
-
 /*
 ~TEST
 
@@ -179,8 +163,6 @@ enum e_module_random{
 	E_MODULE_RANDOM_ONE,
 	E_MODULE_RANDOM_TWO,
 	
-	E_MODULE_RANDOM_LIB, /* currently implemented module */
-	
 	E_MODULE_RANDOM_MAX
 };
 
@@ -191,13 +173,10 @@ const char MODULE_LABEL[E_MODULE_RANDOM_MAX][LABEL_LEN] = {
 	
 	"E_MODULE_RANDOM_ONE",
 	"E_MODULE_RANDOM_TWO",
-	
-	"E_MODULE_RANDOM_LIB", /* currently implemented module */
 };
 
 void module_random_one_Srand(void);
 void module_random_two_Srand(void);
-void module_random_lib_Srand(void);
 
 void module_random_CallSrand(enum e_module_random _module_id){
 	switch(_module_id){
@@ -209,10 +188,6 @@ void module_random_CallSrand(enum e_module_random _module_id){
 		  module_random_two_Srand();
 			break;
 	
-		case E_MODULE_RANDOM_LIB:
-		  module_random_lib_Srand();
-			break;
-	
 		default:
 			break;
 	}
@@ -220,7 +195,6 @@ void module_random_CallSrand(enum e_module_random _module_id){
 
 void module_random_one_Rand(void);
 void module_random_two_Rand(void);
-void module_random_lib_Rand(void);
 
 const int module_random_CallRand(enum e_module_random _module_id){
 	switch(_module_id){
@@ -230,10 +204,6 @@ const int module_random_CallRand(enum e_module_random _module_id){
 
 		case E_MODULE_RANDOM_TWO:
 			module_random_two_Rand();
-			break;
-	
-		case E_MODULE_RANDOM_LIB:
-			module_random_lib_Rand();
 			break;
 	
 		default:
@@ -264,10 +234,6 @@ void module_random_two_Srand(void){
 	srand(seed);
 }
 
-void module_random_lib_Srand(void){
-	/* A version of srand was automatiqualy call when re-fill the stack if Pop empty it. */
-}
-
 /*
 ~RAND
 */
@@ -281,12 +247,6 @@ void module_random_one_Rand(void){
 void module_random_two_Rand(void){
 	int r=0;
 	r=rand()%INT_MAX;
-	buff_rand_Set(r);
-}
-
-void module_random_lib_Rand(void){
-	int r=0;
-	r=random_stack_Pop();
 	buff_rand_Set(r);
 }
 

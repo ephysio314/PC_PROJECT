@@ -44,7 +44,7 @@ int operation_Call(struct CmdOperation _cmd){
 }
 
 void operation_CallPrint(struct CmdOperation _cmd){
-	printf("'%d' = '%d' '%c' '%d'\n", operation_Call(_cmd.mode, _cmd.x, _cmd.y), _cmd.x, (char)_cmd.mode, _cmd.y);
+	printf("'%d' = '%d' '%c' '%d'\n", operation_Call(_cmd), _cmd.x, (char)_cmd.mode, _cmd.y);
 }
 
 int main(void){
