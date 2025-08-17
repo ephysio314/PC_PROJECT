@@ -1,5 +1,5 @@
 
-VERSION 2
+VERSION 0
 
 A) Goal
 
@@ -44,13 +44,7 @@ B) Version
 
 a) Purpose
 
-Implement an option that stop at a specifique character-value.
-Turn the option to stop at a specifique character to true
-and set it to a white-space.
-Input a string.
-Show it.
-
-Also ignor a list.
+Input a integer.
 
 b) Resume
 

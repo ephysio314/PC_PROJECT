@@ -1,5 +1,5 @@
 
-VERSION 2
+VERSION 3
 
 A) Goal
 
@@ -44,24 +44,23 @@ B) Version
 
 a) Purpose
 
-Implement an option that stop at a specifique character-value.
-Turn the option to stop at a specifique character to true
-and set it to a white-space.
-Input a string.
-Show it.
-
-Also ignor a list.
+Input a integer.
 
 b) Resume
+
+Define methodes to convert string to integer.
+Also check if a character was a number.
+
+Able to check if the buffer contain a string.
+Define a maximum value for the store int.
 
 Run a while-loop until the "valide" boolean was true.
 
 Inside:
-- Set a config of character to ignor. Here all the numbers.
-- Set the config to stop at a white-space character.
-- Output in the command-line to enter a sentence.
-- Reqiest a string.
-- If the result of the function checking if the buffer was "empty" was false, turn "valide" true. 
+- Set the limit of integer input to 120.
+- Output in the command-line to enter you age.
+- Request a string.
+- If the result of the function checking if the buffer was "empty" was false and it was an integer, turn "valide" true. 
 - Output the string from the buffer and he's calculate length.
 
 
