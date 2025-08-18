@@ -1,0 +1,69 @@
+
+
+Chapter 0-setup
+
+Course 0
+
+A) Dependancies
+
+a) Why
+
+Need the compiler "gcc".
+and the build-system "make".
+
+b) Natif installation
+
+On Linux for ansi-c compiler and build-system,
+need "build-essential" natif package.
+
+shell:
+~{
+sudo apt update
+sudo apt upgrade
+sudo apt install build-essential
+sudo apt clean
+}~
+
+B) Makefile
+
+a) Usage
+
+Will handle script to setup the environnement
+and compile the app.
+
+b) Creat make-file
+
+Creat a file in the root directory that name "Makefile".
+
+c) Compile using gcc
+
+The more straigthforward was
+to creat a function in the Makefile
+that will directly call the command.
+
+~{
+all:
+	gcc -ansi -o app.exe main.c
+}~
+
+To run it, call in the shell:
+~{
+make all
+}~
+
+To execute the app, run in the shell:
+~{
+./app.exe
+}~
+
+d) Result
+
+The app in current "main.c" should
+output in the shell ~{Hello, World!}~.
+
+e) Later inprouve
+
+"make" haev many sintax to automate build-process.
+
+
+
