@@ -1,5 +1,4 @@
 
-
 Chapter 0-setup
 
 Course 1
@@ -44,8 +43,10 @@ CC= -gcc -ansi
 EXE_SRC= main.c
 EXE= build/app.exe
 
-
 all: $(EXE) build/README.md
+
+run: $(EXE)
+	./$<
 
 $(EXE): $(EXE_SRC)
 	$(CC) -o $@ $^

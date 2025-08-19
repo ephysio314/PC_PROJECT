@@ -1,0 +1,9 @@
+
+- Describ the diferance bettween the tuto 1 and 2.
+We mostly implement a build and linking of a static library.
+
+- Test this new implementation.
+( need to creat source in "src" and include in test in "main.c". )
+
+
+

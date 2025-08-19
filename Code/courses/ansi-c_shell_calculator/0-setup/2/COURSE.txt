@@ -1,0 +1,23 @@
+
+Chapter 0-setup
+
+Course 2
+
+A) Include source
+
+Creat a directory "src".
+Inside it add source-file and header
+user to include definition of mostly declaration of function.
+Those header are for the one in "inc" or bettween the one in "src".
+
+Another directory "inc" that contain the header
+that will be include in the other projects.
+
+B) Static library
+
+We will creat a static library.
+It was a binary file that can be link
+to the source he was include in.
+
+
+
