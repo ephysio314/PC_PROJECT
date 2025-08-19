@@ -63,7 +63,7 @@ output in the shell ~{Hello, World!}~.
 
 e) Later inprouve
 
-"make" haev many sintax to automate build-process.
+"make" have many sintax to automate build-process.
 
 
 
