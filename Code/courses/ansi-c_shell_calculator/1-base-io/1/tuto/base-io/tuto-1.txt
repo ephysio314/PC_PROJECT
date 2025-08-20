@@ -1,0 +1,13 @@
+
+A) Goal
+
+Learn about the most basic way to do input/output in ansi-c.
+
+To do that, implement in modules a simple interface.
+
+Input a string using module function "_input".
+
+Output from a string using module function "_print".
+
+Also integer to string and reverse.
+

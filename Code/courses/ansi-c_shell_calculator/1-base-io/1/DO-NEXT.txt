@@ -1,0 +1,4 @@
+
+- Able to check if a string was an integer.
+- Fix integer conversion.
+
