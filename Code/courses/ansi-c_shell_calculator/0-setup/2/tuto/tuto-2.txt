@@ -1,0 +1,61 @@
+
+Chapter 0-setup
+
+Course 1
+
+A) Automatique variables
+
+1) Why
+
+Less explicite sintax.
+Less to re-write.
+More concise.
+
+2) Who
+
+Can use the recicies at the left of the ':' in the script
+to be a ressource using "$^".
+
+Can use the output at the left of the ':'
+to be the compiler output using "$@".
+
+But to do that,
+use only the script call was not enough.
+
+We need to creat a script that output the executable
+and the one who ask the build that need the executable.
+
+To make it cleaner, use variables.
+
+Request to creat a directory "build" that contain a file "README.md".
+
+It come from the root directory.
+
+The script setup do:
+- Remove the build directory if any.
+- Creat a "build" directory
+- Copy "README.md" in the build directory
+
+It become like this:
+~{
+CC= -gcc -ansi
+
+EXE_SRC= main.c
+EXE= build/app.exe
+
+all: $(EXE) build/README.md
+
+run: $(EXE)
+	./$<
+
+$(EXE): $(EXE_SRC)
+	$(CC) -o $@ $^
+
+setup: README.md
+	rm -rf build
+	mkdir build
+	cp README.md build
+}~
+
+
+
