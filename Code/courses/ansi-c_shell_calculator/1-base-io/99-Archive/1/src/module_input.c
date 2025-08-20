@@ -1,5 +1,5 @@
 
-#include <stdio.h> /* stdin, fgetc, BUFSIZ, _print */
+#include <stdio.h> /* stdin, fgetc, BUFSIZ */
 #include <string.h> /* strlen */
 
 void _print(const char * _val);
