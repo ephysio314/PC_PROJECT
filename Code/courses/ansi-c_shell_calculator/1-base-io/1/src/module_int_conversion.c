@@ -61,5 +61,14 @@ bool _isi(char _val){
 	return true;
 }
 
+bool _strisi(const char * _val){
+	int i=0;
+	int imax=(int)strlen(_val)-1;
+	while(i < imax){
+		if(!_isi(_val[i])){ return false; }
+		i++;
+	}
+	return true;
+}
 
 

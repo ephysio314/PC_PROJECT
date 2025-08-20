@@ -1,4 +1,6 @@
 
+- MOST: Input return the buf pointer but we can't keep reading it.
+
 - Able to check if a string was an integer.
 - Fix integer conversion.
 

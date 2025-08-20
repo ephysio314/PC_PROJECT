@@ -16,4 +16,5 @@ void _print(const char * _val);
 void _itoa(int _val, char _targ[]);
 
 bool _isi(char _val);
+bool _strisi(const char * _val);
 
