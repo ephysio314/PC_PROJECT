@@ -1,6 +1,7 @@
 
 #include <stdio.h> /* printf */
 #include <stdbool.h>
+#include <string.h> /* strcpy */
 
 enum e_action{
 	E_ACTION_NULL,
@@ -22,6 +23,7 @@ struct Player{
 #define PLAYER_INDEX_MIN 1
 
 static struct Player players[ROOM] = (struct Player[ROOM]){0};
+static int room_score = 0;
 
 static int user_index=0;
 
@@ -32,7 +34,7 @@ bool SpwanUser(int _index);
 void Init(void){
 	if(false == is_init){
 		SpwanUser(PLAYER_INDEX_MIN);
-		int i=0;
+		int i=PLAYER_INDEX_MIN;
 		int imax=ROOM;
 		while(i < imax){
 			players[i].id = i;
@@ -50,18 +52,26 @@ bool SpwanUser(int _index){
 	return true;
 }
 
-void ActionOne(int _player_id){
-	int player_index = _player_id;
+void ActionOne(struct Player _val){
+	int score_add = 250;
+	int player_index = _val.id;
 	int old_score = players[player_index].score;
-	players[player_index].score = old_score + 250;
+	players[player_index].score = old_score + score_add;
+
+	room_score += score_add;
 }
-void ActionTwo(int _player_id){
-	int player_index = _player_id;
+void ActionTwo(struct Player _val){
+	int player_index = _val.id;
 	int i=PLAYER_INDEX_MIN;
 	int imax=ROOM;
 	while(i < imax){
 		int player_gaining_index = i;
-		if(player_gaining_index != player_index){ int old_score = players[player_gaining_index].score; players[player_gaining_index].score = old_score + 10; }
+		if(player_gaining_index != player_index){
+			int score_add=10;
+			int old_score = players[player_gaining_index].score;
+			players[player_gaining_index].score = old_score + 10;
+			room_score += score_add;
+		}
 		i++;
 	}
 }
@@ -69,13 +79,28 @@ void ActionTwo(int _player_id){
 void PlayerAction(struct Player _val){
 	switch(_val.action_id){
 		case E_ACTION_ONE:
-			ActionOne(_val.id);
+			ActionOne(_val);
 			break;
 	
 		case E_ACTION_TWO:
-			ActionTwo(_val.id);
+			ActionTwo(_val);
 			break;
 	}
+}
+
+static char player_action_name_buf[255]={0};
+
+const char * PlayerActionName(enum e_action _val){
+	switch(_val){
+		case E_ACTION_ONE:
+			strcpy(player_action_name_buf, "you gain 250");
+			break;
+	
+		case E_ACTION_TWO:
+			strcpy(player_action_name_buf, "others gain 10");
+			break;
+	}
+	return player_action_name_buf;
 }
 
 void ContextOne(void){
@@ -163,6 +188,7 @@ void ContextFour(void){
 
 void GameStart(void){
 	SpwanUser(1);
+	room_score=0;
 	int i=PLAYER_INDEX_MIN;
 	int imax=ROOM;
 	while(i < imax){
@@ -186,9 +212,10 @@ void GameEnd(void){
 	int i=PLAYER_INDEX_MIN;
 	int imax=ROOM;
 	while(i < imax){
-		printf("player: id '%d'; action '%d'; score '%d'.\n", players[i].id, players[i].action_id, players[i].score );
+		printf("i '%d'; player: id '%d'; action '%d' that '%s'; score '%d'.\n", i, players[i].id, players[i].action_id, PlayerActionName(players[i].action_id), players[i].score );
 		i++;
 	}
+	printf("Room score: '%d'\n", room_score);
 }
 
 void GameOne(void){
