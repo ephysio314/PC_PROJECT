@@ -7,11 +7,14 @@ LIB1_BIN= $(LIB1_BUILD)libSDL2.a
 ../lib/$(LIB1_BIN):
 	cd ../lib; make $(LIB1_BIN); cd ..;
 
-LIB1_EXAMPLE= hello-sdl.out
+LIB1_EXAMPLE1= hello-sdl.out
+LIB1_EXAMPLE2= hello-sdl-2d.out
 
-$(LIB1_EXAMPLE): hello-sdl.c ../lib/$(LIB1_BIN) build/README.md
+$(LIB1_EXAMPLE1): hello-sdl.c ../lib/$(LIB1_BIN) build/README.md
 	gcc -o build/$@ $< ../deps/glad/src/gl.c -I../deps/glad/include -I../lib/SDL/include -L../lib/$(LIB1_BUILD) -lSDL2 -lm
 
+$(LIB1_EXAMPLE2): hello-sdl-2d.c ../lib/$(LIB1_BIN) build/README.md
+	gcc -o build/$@ $< ../deps/glad/src/gl.c -I../deps/glad/include -I../lib/SDL/include -L../lib/$(LIB1_BUILD) -lSDL2 -lm
 
 #GLFW ( generate glfw lib fail )
 
@@ -28,7 +31,7 @@ $(LIB2_EXAMPLE): hello-glfw.c ../lib/$(LIB2_BIN) build/README.md
 
 #SETUP
 
-BIN= ../lib/$(LIB1_BIN) ../lib/$(LIB2_BIN) $(LIB1_EXAMPLE) $(LIB2_EXAMPLE)
+BIN= ../lib/$(LIB1_BIN) $(LIB1_EXAMPLE1) $(LIB1_EXAMPLE2) ../lib/$(LIB2_BIN) $(LIB2_EXAMPLE)
 
 all: $(BIN)
 

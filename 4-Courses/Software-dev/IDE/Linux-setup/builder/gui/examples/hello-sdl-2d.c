@@ -1,34 +1,23 @@
-#include <stdlib.h>
 #include <stdio.h>
 
-#include <glad/gl.h>
 #include <SDL.h>
-#include <SDL_opengl.h>
 
 const unsigned int WIDTH = 800, HEIGHT = 600;
 
 int main(int _argc, char ** _argv) {
     // code without checking for errors
     SDL_Init(SDL_INIT_VIDEO);
-
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
+    
     SDL_Window *win = SDL_CreateWindow(
-        "[glad] GL with SDL",
+        "Draw 2d with SDL",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         WIDTH, HEIGHT,
         SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
     );
 
-    SDL_GLContext ctx = SDL_GL_CreateContext(win);
-
-    int version = gladLoadGL((GLADloadfunc) SDL_GL_GetProcAddress);
-    printf("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
-
+    SDL_Renderer * ctx = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+ 
     int exit = 0;
     while(!exit) {
         SDL_Event ev;
@@ -47,13 +36,13 @@ int main(int _argc, char ** _argv) {
             }
         }
 
-        glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        SDL_SetRenderDrawColor(ctx, 0, 128, 128, 255);
+        SDL_RenderClear(ctx);
 
-        SDL_GL_SwapWindow(win);
+        SDL_RenderPresent(ctx);
     }
 
-    SDL_GL_DeleteContext(ctx);
+    SDL_DestroyRenderer(ctx);
     SDL_DestroyWindow(win);
     SDL_Quit();
 
