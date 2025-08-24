@@ -1,0 +1,132 @@
+
+. Base packages
+
+~{
+sudo apt update
+sudo apt upgrade
+
+sudo apt install build-essential
+gcc --version
+g++ --version
+make --version
+
+sudo apt install git
+git --version
+
+sudo apt install cmake
+cmake --version
+
+sudo apt clean
+}~
+
+. Download project
+
+~{
+mkdir project
+cd project
+git clone https://github.com/glfw/glfw.git
+}~
+
+. Instruction from "compile.md"
+
+For debian like Ubunutu and LinuxHint:
+
+~{
+sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+}~
+
+. Compile glfw library using cmake-cli
+
+https://www.glfw.org/docs/latest/compile.html
+
+~{
+cmake -S ../glfw -B .
+}~
+
+Require Doxygene.
+
+https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
+
+~{
+sudo apt-add-repository universe
+sudo apt-get update
+sudo apt-get install doxygen
+}~
+
+Back to cmake-build.
+
+~{
+cmake --build .
+}~
+
+. Check if compile right
+
+- Go into the build-directory glfw-build.
+- in "tests" and execute some.
+- go back in "cd ../examples" to see whats possible.
+
+. Gaver working example
+
+- Go in the source-code ( the one download, not the builded )
+
+- Search the build-config file "CMakefLists.txt".
+- search "title.c"
+
+- In the main project, creat a sub-dir "test".
+- A sub to it name with the example name, here "title".
+
+- Check he's dependancies.
+Here we have glfw3 ( the compile lib )
+-glad ( from a wesite that generate source )
+
+. Get glad
+
+Links:
+https://github.com/Dav1dde/glad
+https://gen.glad.sh/
+
+glad-2 option:
+- C/C++
+- gl 4.6
+- gles2 3.2
+- vulkan 1.4
+- Core
+- header only
+- loader
+
+. Check "CMakeLists.txt" used to compile the example
+
+Here:
+. link "glfw" and if set "MATH_LIBRARY".
+. include "${GLFW_SOURCE_DIR}/deps".
+. Set valriables for argument like:
+  ~{ GLAD_GL "${GLFW_SOURCE_DIR}/deps/glad/gl.h" }~
+or multipl like ~{ TINYCTHREAD "${GLFW_SOURCE_DIR}/deps/tinycthread.h"
+                "${GLFW_SOURCE_DIR}/deps/tinycthread.c" }~
+
+. Condition for:
+- "WIN32".
+- "APPLE".
+- "MSVC" ( Microsoft Visual C++ ). ( Also ~{ CMAKE_C_SIMULATE_ID STREQUAL "MSVC" }~ )
+- Optional library to link using optionnal value "MATH_LIBRARY".
+
+. Two type of link:
+  - "link_libraries" link to all executables.
+  - "target_link_libraries" link the specified executables.
+
+. Creat an executable commande using "add_executable".
+It contain he's name,
+macro like "WIN32 MACOSX_BUNDLE" ( not for linux ),
+the main-source-file whp's the name plus c-extention",
+the depandancies from the variables set like "GLAD_GL".
+
+. Set an argument with the name of the executables.
+
+. All the names are regroup by sub-group of user-interface
+it seem only for clarity-sake.
+
+. All are parametriese in a "set_target_properties" with:
+  - all the names of executables.
+  - The macros ~{ PROPERTIES C_STANDARD 99 }~
+  - ~{ FOLDER "GLFW3/Examples" }~
+
