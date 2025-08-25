@@ -8,14 +8,7 @@
 static struct Shader shader = (struct Shader){0};
 
 void Init(void){
-	struct ConfShader conf = {
-		conf_shader_GetShaderVertexSrc(),
-		conf_shader_GetShaderFragmentSrc(),
-		conf_shader_GetVertices(),
-		conf_shader_GetVerticesLen()
-	};
-	
-	shader = CreateShader(conf);
+	shader = CreateShader(GetConfShader());
 }
 
 void Quit(void){

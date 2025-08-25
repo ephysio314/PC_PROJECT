@@ -6,17 +6,14 @@
 int conf_shader_SetModule(int _module_id);
 int conf_shader_GetModuleMax(void);
 
-const char * conf_shader_GetShaderVertexSrc(void);
-const char * conf_shader_GetShaderFragmentSrc(void);
-float * conf_shader_GetVertices(void);
-int conf_shader_GetVerticesLen(void);
-
 struct ConfShader{
 	const char * vertex_src;
 	const char * fragment_src;
-	float * vertices;
-	int vertex_len;
+	const float * vertices;
+	const int vertex_len;
 };
+
+struct ConfShader GetConfShader(void);
 
 /*
 ~CREATE-SHADER

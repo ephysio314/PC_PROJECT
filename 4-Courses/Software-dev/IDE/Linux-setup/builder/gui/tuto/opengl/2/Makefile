@@ -22,6 +22,7 @@ $(LIB1_EXAMPLE): main.c $(PATH_BACK)lib/$(LIB1_BIN) build/README.md
 	gcc -o build/$@ $< $(PATH_BACK)deps/glad/src/gl.c $(MODULES_SRC) -Imodules -I$(PATH_BACK)deps/glad/include -I$(PATH_BACK)lib/glfw/include -L$(PATH_BACK)lib/$(LIB1_BUILD) -lglfw3 -lX11 -lm
 
 all: $(BIN)
+	./build/$(LIB1_EXAMPLE)
 
 build/README.md: README.md
 	mkdir build
