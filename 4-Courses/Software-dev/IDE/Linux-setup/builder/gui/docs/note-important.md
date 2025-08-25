@@ -23,7 +23,11 @@ It should stay this only name.
 If the binary was in a sub-directory of this one,
 it should be added in "LIB{number}_BIN = $(LIB{number}_BUILD){sub-dir}/lib{name}.a"
 
-Be careful to not include after "$(LIB{number}_BUILD)" a "/"
-because this first one was include in the "LIB{number}_BUILD" variable.
+Be carefull to note add extrat "/" when concatenate Makefile variables.
+
+SDL_image depand on external libraries
+that seem to not be automatiqualy download when use cmake.
+Should build them individualy using the internal script if any,
+or list them and doanload them myself.
 
 
