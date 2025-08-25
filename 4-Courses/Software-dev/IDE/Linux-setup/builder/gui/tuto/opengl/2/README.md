@@ -9,7 +9,11 @@ the usage of "SDL_Renderer*" and "SDL_Image.h".
 
 B) This tuto
 
-Template of working build-system and window creation
-with clear/display using opengl from glad.
+Creat a first example of triangl using opengl.
+
+- Setup values to creat it.
+- Creat it.
+- Draw it.
+- Destroy it.
 
 
