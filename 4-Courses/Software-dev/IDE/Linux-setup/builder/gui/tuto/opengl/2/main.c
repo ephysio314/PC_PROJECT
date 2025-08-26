@@ -8,6 +8,11 @@
 static struct Shader shader = (struct Shader){0};
 
 void Init(void){
+	#if 1
+	creat_shader_SetModule(2);
+	shader_draw_SetModule(2);
+	#endif
+
 	shader = CreateShader(GetConfShader());
 }
 
@@ -31,11 +36,11 @@ static void error_callback(int error, const char* description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
-#define WIDTH 640
+#define WIDTH 320
 #define HEIGHT 320
 
-int main(void)
-{
+int main(void){
+
     GLFWwindow* window;
 
     glfwSetErrorCallback(error_callback);
@@ -61,7 +66,7 @@ int main(void)
     		glClearColor(0.5f, 0.7f, 0.7f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
-        Draw(shader);
+        ShaderDraw(shader);
         
         glfwSwapBuffers(window);
         glfwWaitEvents();

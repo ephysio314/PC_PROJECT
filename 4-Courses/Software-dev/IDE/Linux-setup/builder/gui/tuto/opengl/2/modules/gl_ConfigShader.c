@@ -31,7 +31,7 @@ struct ConfShader one_GetConfShader(void);
 */
 
 struct ConfShader GetConfShader(void){
-	struct ConfShader return_val;
+	struct ConfShader return_val = (struct ConfShader){0};
 	switch(module_id){
 		case E_NULL: /* No module specified. Default */
 			return one_GetConfShader();
@@ -71,12 +71,19 @@ static float one_vertices[one_VERTICES_LEN] = {
 	0.0f,  0.5f, 0.0f  // top   
 }; 
 
+#define one_INDICES_LEN 3
+static unsigned int one_indices[one_INDICES_LEN] = {
+	0, 1, 2
+}; 
+
 struct ConfShader one_GetConfShader(void){
 	return (struct ConfShader){ 
 		one_shader_vertex_src,
 		one_shader_fragment_src,
 		one_vertices,
-		one_VERTICES_LEN
+		one_VERTICES_LEN,
+		one_indices,
+		one_INDICES_LEN
 	};
 }
 

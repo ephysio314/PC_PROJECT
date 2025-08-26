@@ -1,6 +1,6 @@
 
 P1= modules/
-MODULES_SRC= $(P1)gl_Shader.c $(P1)gl_CreateShader.c $(P1)gl_ConfigShader.c
+MODULES_SRC= $(P1)gl_Shader.c $(P1)gl_DrawShader.c $(P1)gl_CreateShader.c $(P1)gl_ConfigShader.c
 
 PATH_BACK= ../../../
 
