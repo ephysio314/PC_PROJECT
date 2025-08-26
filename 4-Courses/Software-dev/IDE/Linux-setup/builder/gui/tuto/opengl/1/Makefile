@@ -19,7 +19,7 @@ LIB2_INC= -I$(PATH_BACK)deps/glad/include
 #SETUP
 
 P1= build/examples/
-EXAMPLES= $(P1)hello.out
+EXAMPLES= $(P1)hello.out $(P1)triangle-opengl.out
 
 DEPS1_REQUIRED_LIB= $(LIB1)
 DEPS1_SRC= $(LIB2_SRC)
