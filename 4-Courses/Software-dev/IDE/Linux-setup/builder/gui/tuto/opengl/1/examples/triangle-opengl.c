@@ -6,6 +6,10 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+/*
+~CONFIG-GUI
+*/
+
 #define WIN_WIDTH 320
 #define WIN_HEIGHT 320
 
@@ -41,6 +45,32 @@ struct GuiConf CreateGuiConf(void){
 	};
 	return return_val;
 }
+
+/*
+~SHADER
+*/
+
+struct ShaderConf{
+	const char * vertex_src;
+	const char * fragment_src;
+	const float * vertices;
+	const int vertex_len;
+	const unsigned int * indices;
+	const int indices_len;
+};
+
+struct Shader{
+	unsigned int VAO;
+	unsigned int VBO;
+	unsigned int EBO;
+	unsigned int program;
+};
+
+
+
+/*
+~MAIN
+*/
 
 int main(void){
   struct GuiConf gui_conf = CreateGuiConf();

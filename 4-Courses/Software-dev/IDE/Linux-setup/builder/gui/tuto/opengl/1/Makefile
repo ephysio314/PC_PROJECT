@@ -1,30 +1,37 @@
 
 PATH_BACK= ../../../
 
-#GLFW
+#LIB1: GLFW
 
 LIB1_BUILD= build-glfw/src/
 LIB1_BIN= $(LIB1_BUILD)libglfw3.a
+LIB1= $(PATH_BACK)lib/$(LIB1_BIN)
 
-$(PATH_BACK)lib/$(LIB1_BIN):
+LIB1_INC= -I$(PATH_BACK)lib/glfw/include 
+LIB1_LINK= -L$(PATH_BACK)lib/$(LIB1_BUILD) -lglfw3 -lX11 -lm
+
+$(LIB1):
 	cd $(PATH_BACK)lib; make $(LIB1_BIN); cd $(PATH_BACK);
 
-LIB1_EXAMPLE= app.out
+LIB2_SRC= $(PATH_BACK)deps/glad/src/gl.c
+LIB2_INC= -I$(PATH_BACK)deps/glad/include
 
 #SETUP
-
-BIN= $(PATH_BACK)lib/$(LIB1_BIN) $(LIB1_EXAMPLE)
-
-$(LIB1_EXAMPLE): main.c $(PATH_BACK)lib/$(LIB1_BIN) build/README.md
-	gcc -o build/$@ $< $(PATH_BACK)deps/glad/src/gl.c -I$(PATH_BACK)deps/glad/include -I$(PATH_BACK)lib/glfw/include -L$(PATH_BACK)lib/$(LIB1_BUILD) -lglfw3 -lX11 -lm
 
 P1= build/examples/
 EXAMPLES= $(P1)hello.out
 
-build/examples/%.out: examples/%.c $(PATH_BACK)lib/$(LIB1_BIN) build/README.md
-	gcc -o $@ $< $(PATH_BACK)deps/glad/src/gl.c -I$(PATH_BACK)deps/glad/include -I$(PATH_BACK)lib/glfw/include -L$(PATH_BACK)lib/$(LIB1_BUILD) -lglfw3 -lX11 -lm
+DEPS1_REQUIRED_LIB= $(LIB1)
+DEPS1_SRC= $(LIB2_SRC)
+DEPS1_INC= $(LIB2_INC) $(LIB1_INC)
+DEPS1_LINK= $(LIB1_LINK)
+DEPS1= $(DEPS1_SRC) $(DEPS1_INC) $(DEPS1_LINK)
+build/examples/%.out: examples/%.c $(DEPS1_REQUIRED_LIB) build/README.md
+	gcc -o $@ $< $(DEPS1)
 
-all: $(BIN) $(EXAMPLES)
+BIN= $(DEPS1_REQUIRED_LIB) $(EXAMPLES)
+
+all: $(BIN)
 
 build/README.md: README.md
 	mkdir build

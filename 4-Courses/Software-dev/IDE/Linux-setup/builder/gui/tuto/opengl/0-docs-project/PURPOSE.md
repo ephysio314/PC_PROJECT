@@ -1,5 +1,21 @@
 
-A) Architecture
+A) Methode
+
+Implement in examples
+with a main-file only.
+
+Implementing what have been
+implemented, tested, aprouve
+from the first part. ( main-only )
+
+Implement in the third part
+extended version.
+
+In thourth,
+implement system of test
+and scalability.
+
+B) Architecture
 
 a) data-flow
 
@@ -45,7 +61,7 @@ to inpremant one feature.
 It can be multipl reason for that.
 The two most important are maintenance and design-tradeof.
 
-B) Feature
+C) Feature
 
 Creat shader, transform and draw it.
 
