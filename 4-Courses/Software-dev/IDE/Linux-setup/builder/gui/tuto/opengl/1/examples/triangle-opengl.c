@@ -1,6 +1,7 @@
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> /* exit, calloc, free */
+#include <stdbool.h>
 
 #include <glad/gl.h>
 #define GLFW_INCLUDE_NONE
@@ -47,25 +48,179 @@ struct GuiConf CreateGuiConf(void){
 }
 
 /*
-~SHADER
+~INTERFACE-MODE-IDENTIFIER: SHADER
+*/
+
+enum e_mode_shader{
+	E_MODE_SHADER_NULL,
+	
+	E_MODE_SHADER_ONE,
+	E_MODE_SHADER_TWO,
+	
+	E_MODE_SHADER_MAX
+};
+
+enum e_modules_shader{
+	E_MODULES_NULL,
+	
+	E_MODULES_SET_CONF,
+	E_MODULES_LOAD_SHADER,
+	E_MODULES_DRAW_SHADER,
+	
+	E_MODULES_MAX
+};
+
+static enum e_mode_shader shader_mode=0;
+static enum e_mode_shader shader_module=0;
+
+bool shader_IsAbleMode(enum e_mode_shader _v){
+	return (bool)(0 < _v && _v < E_MODULES_MAX);
+}
+void shader_SetMode(enum e_mode_shader _v){
+	if(shader_IsAbleMode(_v)){ shader_mode = _v; }
+}
+
+bool shader_IsAbleModule(enum e_modules_shader _v){
+	return (bool)(0 < _v && _v < E_MODULES_MAX);
+}
+void shader_SetModule(enum e_modules_shader _v){
+	if(shader_IsAbleModule(_v)){ shader_module = _v; }
+}
+
+/*
+~INTERFACE-MODE-OBJECT: SHADER
 */
 
 struct ShaderConf{
-	const char * vertex_src;
-	const char * fragment_src;
-	const float * vertices;
-	const int vertex_len;
-	const unsigned int * indices;
-	const int indices_len;
+	char * vertex_src;
+	char * fragment_src;
+	float * vertices;
+	int vertex_len;
+	unsigned int * indices;
+	int indices_len;
 };
 
-static const char *one_shader_vertex_src = "#version 330 core\n"
+struct ShaderObject{
+	unsigned int VAO;
+	unsigned int VBO;
+	unsigned int EBO;
+	bool is_able_EBO;
+};
+
+struct Shader{
+	unsigned int program;
+	struct ShaderObject obj;
+};
+
+/*
+~INTERFACE-CALL: SHADER
+*/
+
+static struct ShaderConf * shader_conf_buf = NULL;
+static struct Shader shader_buf = (struct Shader){0};
+
+void shader_DestroyConf(void);
+
+void shader_CreateConf(void){
+	if(NULL == shader_conf_buf){
+		shader_conf_buf = (struct ShaderConf *)malloc(sizeof(struct ShaderConf));
+	}
+}
+void shader_DestroyConf(void){
+	if(NULL != shader_conf_buf){ free(shader_conf_buf); shader_conf_buf=NULL;  }
+}
+
+struct ShaderConf * one_CreateShaderConf(void);
+
+struct Shader CreateShader(struct ShaderConf _v);
+
+void one_DrawShader(struct Shader _v);
+void two_DrawShader(struct Shader _v);
+
+void shader_SetConf(void){
+	shader_DestroyConf();
+	switch(shader_mode){
+		case E_MODE_SHADER_ONE:
+			shader_conf_buf = one_CreateShaderConf();
+			break;
+		case E_MODE_SHADER_TWO:
+			shader_conf_buf = one_CreateShaderConf();
+			break;
+	}
+}
+
+void shader_Load(void){
+	if(NULL == shader_conf_buf){ shader_SetConf(); }
+	switch(shader_mode){
+		case E_MODE_SHADER_ONE:
+			shader_buf = CreateShader(*shader_conf_buf);
+			break;
+		case E_MODE_SHADER_TWO:
+			shader_buf = CreateShader(*shader_conf_buf);
+			break;
+	}
+}
+
+void shader_Draw(void){
+	switch(shader_mode){
+		case E_MODE_SHADER_ONE:
+			one_DrawShader(shader_buf);
+			break;
+		case E_MODE_SHADER_TWO:
+			one_DrawShader(shader_buf);
+			break;
+	}
+}
+
+void shader_Start(void){
+	shader_mode=1;
+	shader_module=0;
+	shader_CreateConf();
+}
+void shader_Terminate(void){
+	shader_mode=0;
+	shader_module=0;
+	shader_DestroyConf();
+}
+
+void shader_Proc(enum e_modules_shader _v){
+	switch(_v){
+		case E_MODULES_NULL: /* Do nothing */
+			break;
+	
+		case E_MODULES_SET_CONF:
+			shader_SetConf();
+			break;
+	
+		case E_MODULES_LOAD_SHADER:
+			shader_Load();
+			break;
+			
+		case E_MODULES_DRAW_SHADER:
+			shader_Draw();
+			break;
+		
+		default:
+			/* Fail to find the module */
+			break;
+	}
+}
+
+/*
+~INTERFACE-VALUE-MODULES: SHADER
+*/
+
+/*
+~Moduel one
+*/
+
+static char one_shader_vertex_src[255] = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "void main()\n"
     "{\n"
     "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
     "}\0";
-static const char *one_shader_fragment_src = "#version 330 core\n"
+static char one_shader_fragment_src[255] = "#version 330 core\n"
     "out vec4 FragColor;\n"
     "void main()\n"
     "{\n"
@@ -82,10 +237,11 @@ static float one_vertices[one_VERTICES_LEN] = {
 #define one_INDICES_LEN 3
 static unsigned int one_indices[one_INDICES_LEN] = {
 	0, 1, 2
-}; 
+};
 
-struct ShaderConf one_CreateShaderConf(void){
-	return (struct ShaderConf){ 
+struct ShaderConf * one_CreateShaderConf(void){
+	
+	struct ShaderConf v = (struct ShaderConf){ 
 		one_shader_vertex_src,
 		one_shader_fragment_src,
 		one_vertices,
@@ -93,18 +249,24 @@ struct ShaderConf one_CreateShaderConf(void){
 		one_indices,
 		one_INDICES_LEN
 	};
+	
+	struct ShaderConf * vp = (struct ShaderConf *)malloc(sizeof(struct ShaderConf));
+	(*vp) = v;
+	
+	return (struct ShaderConf*)vp;
 }
 
-struct ShaderObject{
-	unsigned int VAO;
-	unsigned int VBO;
-	unsigned int EBO;
-};
+/*
+~Moduel two
+*/
 
-struct Shader{
-	unsigned int program;
-	struct ShaderObject obj;
-};
+int two_GetShaderConfVertexLen(void){
+	return one_VERTICES_LEN;
+}
+
+/*
+~CREATE-SHADER
+*/
 
 unsigned int CreateShaderProgram(const char * _vertex_src, const char * _fragment_src){
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -171,6 +333,13 @@ void one_DrawShader(struct Shader _v){
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
+void two_DrawShader(struct Shader _v){
+	glUseProgram(_v.program);
+	glBindVertexArray(_v.obj.VAO);
+	glDrawElements(GL_TRIANGLES, two_GetShaderConfVertexLen(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
 /*
 ~General
 */
@@ -189,13 +358,24 @@ void DestroyShader(struct Shader _v){
 int main(void){
   struct GuiConf gui_conf = CreateGuiConf();
   
-  struct Shader shader = CreateShader(one_CreateShaderConf());
+  shader_SetMode(1);
+  
+  /*
+	E_MODULES_SET_CONF
+	E_MODULES_LOAD_SHADER
+	E_MODULES_DRAW_SHADER
+  */
+  
+  shader_Start();
+  
+  shader_Proc(E_MODULES_SET_CONF);
+  shader_Proc(E_MODULES_LOAD_SHADER);
 
   while(!glfwWindowShouldClose(gui_conf.win)){
     glClearColor(0.5f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    one_DrawShader(shader);
+  	shader_Proc(E_MODULES_DRAW_SHADER);
     
     glfwSwapBuffers(gui_conf.win);
     
@@ -204,6 +384,7 @@ int main(void){
 
 	glfwDestroyWindow(gui_conf.win);
   glfwTerminate();
+  shader_Terminate();
   return 0;
 }
 
