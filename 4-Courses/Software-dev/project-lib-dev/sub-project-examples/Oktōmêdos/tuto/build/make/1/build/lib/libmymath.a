@@ -1,0 +1,10 @@
+!<arch>
+mymath.c/       0           0     0     644     69        `
+
+#include "mymath.h"
+
+int myadd(int _x, int _y){
+	return _x + _y;
+}
+
+

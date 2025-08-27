@@ -10,10 +10,10 @@ EXAMPLES= $(P1)hello.out
 all: $(EXAMPLES)
 
 $(P1)%.out: examples/%.c build/README.md
-	$(CC) -o $@ $< -Ideps
+	$(CC) -o $@ $<
 
 $(P2)%.out: tuto/%.c build/README.md
-	$(CC) -o $@ $< -Ideps
+	$(CC) -o $@ $<
 
 build/README.md: README.md
 	rm -rf build
